@@ -57,6 +57,7 @@ git flow feature rebase
 git flow feature checkout
 git flow feature pull
 git flow feature delete
+git flow feature pull-request
 
 Manage your feature branches.
 
@@ -840,4 +841,39 @@ h,help!          Show this help
 showcommands!    Show git commands while executing them
 "
 	gitflow_rename_branch "$@"
+}
+
+
+cmd_pull_request() {
+  OPTIONS_SPEC="\
+  git flow feature pull-request [-h]
+
+  Create a pull request for the current feature branch.
+  --
+  h,help!          Show this help
+  showcommands!    Show git commands while executing them
+  "
+
+  # Parse arguments
+  parse_args "$@"
+
+  # Get the current feature branch name
+  current_branch=$(git rev-parse --abbrev-ref HEAD)
+
+  # Ensure we're on a feature branch
+  if [[ $current_branch != feature/* ]]; then
+    echo "Error: You are not on a feature branch."
+    exit 1
+  fi
+
+  # Push the current branch to the remote
+  echo "Pushing feature branch $current_branch to origin..."
+  git push origin "$current_branch"
+
+  # Extract repository details
+  repo_url=$(git config --get remote.origin.url | sed -e 's/^git@github.com:/https:\/\/github.com\//' -e 's/\.git$//')
+  echo "Opening pull request page for $current_branch..."
+  open "${repo_url}/compare/develop...${current_branch}?expand=1"
+
+  echo "Pull request ready for creation!"
 }
