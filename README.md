@@ -7,7 +7,7 @@ blog post"). This fork adds functionality not added to the original branch.
 
 ## Getting started
 
-For the best introduction to get started with `git flow`, please read Jeff
+For the best introduction to get started with `git flow -- `, please read Jeff
 Kreeftmeijer's blog post:
 
 [http://jeffkreeftmeijer.com/2010/why-arent-you-using-git-flow/](http://jeffkreeftmeijer.com/2010/why-arent-you-using-git-flow/)
